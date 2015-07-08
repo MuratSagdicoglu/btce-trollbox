@@ -235,17 +235,32 @@ def chat_loop(chat_stream):##{
 
 def help():##{
     print("""
-btce-trollbox.py <option>
+btce-trollbox.py [option] [channel]
 
-    --help:         You are here
-    --bte:          BTC-E Troll Box
+Options:
+    --help  :       You are here
+    --btce  :       BTC-E Troll Box (default)
     --tradingview:  Tradingview small talk
+Channels:
+    chat_en :       english
+    chat_ru :       russian (default)
+    chat_cn :       chinese
+
 """)
 ##}
 
 def main():##{
     stream = None
     opts, args = getopt(argv[1:], "-h", longopts=("help", "btce", "tradingview"))
+
+    for arg in args:
+        if arg in ("chat_en", "chat_ru", "chat_cn"):
+            global CHANNEL
+            CHANNEL=arg
+        else:
+            print("Invalid argument: ", arg)
+            help()
+            exit(0)
 
     for opt, value in opts:
         if opt in ("-h", "--help"):
